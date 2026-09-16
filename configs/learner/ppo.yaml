@@ -1,0 +1,16 @@
+init_lr: 3.0e-4
+final_lr: 1.5e-5
+update_epochs: 8
+num_minibatches: 4
+clip_coef: 0.2 # If the ratio goes beyond 1 +/- clip_coef (e.g., 0.8 to 1.2), we cap the gradient.
+per_factor_clip: false # Clip each autoregressive sub-decision ratio independently.
+clip_vloss: true # A defensive trick that prevents the Value function from spiking too hard, mirroring the Policy clipping logic.
+ent_coef: 0.01 # Entropy coef in loss, bigger means the agent tries to maximize actor entropy more
+vf_coef: 0.65 # Value loss coef
+max_grad_norm: 0.5
+norm_adv: true
+anneal_lr: true
+gamma: 0.999
+beta: 1e-4
+gae_lambda: 0.95
+target_kl: 0.02 # If the KL divergence is greater than this stop updating policy on current batch immediately

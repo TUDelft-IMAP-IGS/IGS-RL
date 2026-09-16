@@ -1,0 +1,8 @@
+defaults:
+    - objects@_here_: tiny
+    - inventory@_here_: tiny
+    - goals@_here_: tiny
+    - activities@_here_: default
+    - install_windows@_here_: none
+
+use_business_rules: true

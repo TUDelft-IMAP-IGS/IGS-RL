@@ -1,0 +1,8 @@
+defaults:
+    - objects@_here_: barge
+    - inventory@_here_: barge_single
+    - goals@_here_: chained
+    - activities@_here_: default
+    - install_windows@_here_: none
+
+use_business_rules: false

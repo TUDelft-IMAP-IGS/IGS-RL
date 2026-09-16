@@ -1,0 +1,10 @@
+# @package _global_
+#
+# SMT Basic — PPO + MLP baseline
+#
+defaults:
+    - override /method: ppo_mlp
+    - override /scenario: smt_basic
+    - override /reward: default
+
+exp_name: "smt_basic__ppo_mlp__baseline"

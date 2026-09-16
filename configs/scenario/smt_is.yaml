@@ -1,0 +1,7 @@
+# @package _global_
+#
+# SMT Installation Site — unique inventory, unique goals, Bokalift fixed at IS
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_is

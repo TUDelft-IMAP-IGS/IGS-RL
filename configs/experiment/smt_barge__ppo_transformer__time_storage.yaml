@@ -1,0 +1,7 @@
+# @package _global_
+defaults:
+    - override /method: ppo_transformer_joint
+    - override /scenario: smt_barge
+    - override /reward: time_and_storage
+
+exp_name: "smt_barge__ppo_transformer__time_storage"

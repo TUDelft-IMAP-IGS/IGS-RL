@@ -1,0 +1,43 @@
+# @package _global_
+#
+# Optuna-optimal hyperparameters (best trial from 100-trial sweep, May 2026).
+# Objective was: minimize env/pfm/time/raw (elapsed time at episode completion).
+# Best objective value: ~600h.
+#
+defaults:
+    - override /method: ppo_transformer_joint
+    - override /scenario: smt_barge
+    - override /reward: pfm_time_and_storage
+
+exp_name: "smt_barge__pfm_ts__optuna_v1"
+
+# ── PPO Training Dynamics (from Optuna best trial) ────────────────────────
+learner:
+    init_lr: 7.887e-4
+    ent_coef: 0.007290
+    clip_coef: 0.2
+    update_epochs: 8
+    gae_lambda: 0.9281
+    max_grad_norm: 0.4778
+    vf_coef: 0.6893
+
+# ── PFM Parameters (from Optuna best trial) ──────────────────────────────
+env:
+    reward:
+        pfm:
+            polyak_tau: 0.002496
+            burn_in_trajectories: 100
+            phi_optimism: 1.3126
+            completion_baseline: 11.134
+
+# ── Full-length run with WandB tracking ──────────────────────────────────
+total_timesteps: 2_000_000
+num_envs: 16
+num_steps: 512
+track: true
+
+checkpoint:
+    enable: true
+    eval_after_steps: 500000
+    metric: env/pfm/time/raw
+    mode: min

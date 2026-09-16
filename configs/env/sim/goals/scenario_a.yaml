@@ -1,0 +1,6 @@
+goals:
+    - location: installation_site
+      resource_type: monopile
+      quantity: 8
+      deadline: null
+      reward_per_unit: 1.0

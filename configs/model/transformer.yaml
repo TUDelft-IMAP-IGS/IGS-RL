@@ -1,0 +1,10 @@
+defaults:
+    - transformer_schema
+
+_target_: eos.models.TransformerAgent
+d_model: 128
+n_heads: 8
+dim_feedforward: 512
+batch_first: true
+num_layers: 2
+emb_dim: 8

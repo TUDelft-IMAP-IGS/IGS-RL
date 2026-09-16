@@ -1,0 +1,22 @@
+defaults:
+    - sim: smt_staggered
+
+env_id: "SimpleMonopileTransport-v0"
+use_action_masks: true
+wrappers:
+    - eos.envs.simple_monopile_transport.wrappers.ObservationHygieneWrapper
+    - eos.envs.simple_monopile_transport.wrappers.FlattenObservationWrapper
+    - eos.envs.simple_monopile_transport.wrappers.DiscreteActionWrapper
+allow_idle_actions: false
+time_budget: 24000.0
+max_episode_steps: 1024
+beta: null
+
+render:
+    mode: null
+    width: 1280
+    height: 720
+    panel_width: 420
+    font_size: 16
+    fps: 15
+    show_inventory: true

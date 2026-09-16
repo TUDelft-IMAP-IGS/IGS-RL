@@ -1,0 +1,17 @@
+# @package _global_
+#
+# PPO + Transformer — Per-object discrete action space
+# Uses structured observation with transformer encoder.
+#
+defaults:
+    - override /learner: ppo
+    - override /controller: ppo
+    - override /model: transformer
+
+_target_: eos.experiments.ppo.PPOExperiment
+
+env:
+    wrappers:
+        - eos.envs.simple_monopile_transport.wrappers.TransformerObservationHygieneWrapper
+        - eos.envs.simple_monopile_transport.wrappers.StructuredObservationWrapper
+        - eos.envs.simple_monopile_transport.wrappers.DiscreteActionWrapper

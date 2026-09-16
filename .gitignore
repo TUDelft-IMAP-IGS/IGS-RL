@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+*.egg
+
+# Virtual environments
+.venv/
+
+# IDEs & Editor metadata
+.vscode/
+.zed/
+.idea/
+.pytest_cache/
+.ruff_cache/
+
+# Runtime outputs, checkpoints, and logs
+outputs/
+logs/
+runs/
+multirun/
+wandb/
+videos/
+*.log
+*.db
+*.wav
+
+# Scratch & secrets
+*_secret.txt
+tmp.py
+
+# Data caches
+data/cache/
+.databricks/

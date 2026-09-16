@@ -1,0 +1,26 @@
+activities:
+    move_default: 1.0
+    load_default: 4.0
+    unload_default: 4.0
+    install_default: 14.0
+    transfer_default: 3.0
+    move_matrix:
+        fab_north:
+            fab_south: 100.0
+            marshalling_yard: 60.0
+            installation_site: 70.0
+        fab_south:
+            fab_north: 100.0
+            marshalling_yard: 60.0
+            installation_site: 70.0
+        marshalling_yard:
+            fab_north: 60.0
+            fab_south: 60.0
+            installation_site: 15.0
+        installation_site:
+            fab_north: 70.0
+            fab_south: 70.0
+            marshalling_yard: 15.0
+    installations:
+        Bokalift:
+            installation_site: 40.0

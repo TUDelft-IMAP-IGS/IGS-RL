@@ -1,0 +1,8 @@
+defaults:
+    - objects@_here_: scenario_b
+    - inventory@_here_: scenario_b
+    - goals@_here_: scenario_b
+    - activities@_here_: scenario_b
+    - install_windows@_here_: none
+
+use_business_rules: false

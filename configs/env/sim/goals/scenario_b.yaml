@@ -1,0 +1,98 @@
+goals:
+    # Foundations (no deadline — implicitly paced by WTG deadlines + fabrication)
+    - {
+          location: installation_site,
+          resource_type: foundation,
+          quantity: 1,
+          deadline: null,
+          reward_per_unit: 1.0,
+      }
+    - {
+          location: installation_site,
+          resource_type: foundation,
+          quantity: 2,
+          deadline: null,
+          reward_per_unit: 1.0,
+      }
+    - {
+          location: installation_site,
+          resource_type: foundation,
+          quantity: 3,
+          deadline: null,
+          reward_per_unit: 1.0,
+      }
+    - {
+          location: installation_site,
+          resource_type: foundation,
+          quantity: 4,
+          deadline: null,
+          reward_per_unit: 1.0,
+      }
+
+    # TPs (no deadline)
+    - {
+          location: installation_site,
+          resource_type: tp,
+          quantity: 1,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [0],
+      }
+    - {
+          location: installation_site,
+          resource_type: tp,
+          quantity: 2,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [1],
+      }
+    - {
+          location: installation_site,
+          resource_type: tp,
+          quantity: 3,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [2],
+      }
+    - {
+          location: installation_site,
+          resource_type: tp,
+          quantity: 4,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [3],
+      }
+
+    # WTGs — hard deadlines enforce the one-unit-at-a-time drumbeat
+    - {
+          location: installation_site,
+          resource_type: wtg,
+          quantity: 1,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [4],
+      }
+    - {
+          location: installation_site,
+          resource_type: wtg,
+          quantity: 2,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [5],
+      }
+    - {
+          location: installation_site,
+          resource_type: wtg,
+          quantity: 3,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [6],
+      }
+    - {
+          location: installation_site,
+          resource_type: wtg,
+          quantity: 4,
+          deadline: null,
+          reward_per_unit: 1.0,
+          depends_on: [7],
+      }

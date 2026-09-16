@@ -1,0 +1,5 @@
+defaults:
+    - mlp_schema
+
+_target_: eos.models.MLPAgent
+hidden_size: 64

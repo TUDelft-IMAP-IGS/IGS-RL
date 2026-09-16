@@ -1,0 +1,8 @@
+defaults:
+    - objects@_here_: locking_test
+    - inventory@_here_: locking_test
+    - goals@_here_: locking_test
+    - activities@_here_: locking_test
+    - install_windows@_here_: none
+
+use_business_rules: false

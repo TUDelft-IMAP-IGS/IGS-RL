@@ -1,0 +1,50 @@
+resource_types:
+    foundation:
+        quantity: 4
+    jacket:
+        quantity: 4
+
+sites:
+    fabrication_yard:
+        resource_types:
+            foundation:
+                capacity: 4
+            jacket:
+                capacity: 4
+        initial_levels:
+            foundation: 4
+            jacket: 4
+        total_capacity: 8
+
+    marshalling_yard:
+        resource_types:
+            foundation:
+                capacity: 4
+            jacket:
+                capacity: 4
+        total_capacity: 8
+
+    installation_site:
+        resource_types:
+            foundation:
+                capacity: 4
+            jacket:
+                capacity: 4
+        total_capacity: 8
+
+vessels:
+    HTV:
+        resource_types:
+            foundation:
+                capacity: 1
+            jacket:
+                capacity: 1
+        total_capacity: 2
+
+    Bokalift:
+        resource_types:
+            foundation:
+                capacity: 1
+            jacket:
+                capacity: 1
+        total_capacity: 1

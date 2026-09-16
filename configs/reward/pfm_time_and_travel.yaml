@@ -1,0 +1,50 @@
+# @package _global_
+
+env:
+    reward:
+        completion_bonus: 0.0
+
+        pfm:
+            enabled: true
+            burn_in_trajectories: 50
+            completion_baseline: 10.0
+            catastrophic_penalty: 0.0
+            polyak_tau: 0.01
+            clip_bound: 5.0
+            phi_optimism: 3.0
+            objectives:
+                - name: time
+                  weight: 0.5
+                  sigma_min: 2.0
+                  direction: minimize
+                  info_key: elapsed_time_hours
+                - name: travel_cost
+                  weight: 0.5
+                  sigma_min: 1.0
+                  direction: minimize
+                  info_key: cost/travel
+
+        milestone:
+            stage_weights:
+                at_source: 0.0
+                on_heavy_lift: 0.2
+                at_staging: 0.4
+                on_feeder: 0.6
+                on_installer: 0.8
+                at_goal: 1.0
+            urgency_scale: 1.0
+            urgency_mode: linear
+
+        costs:
+            weight: 1.0
+            elapsed_time:
+                enabled: false
+            travel:
+                enabled: true
+                weight: 1.0
+                rates:
+                    HTV: 0.01
+                    Barge: 0.1
+                    Bokalift: 1.0
+            storage:
+                enabled: false

@@ -1,0 +1,13 @@
+# @package _global_
+#
+# SMT Basic — marshalling yard close to IS, no install window restriction
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_basic
+    - override /env/sim/activities@env.sim: marshalling_close
+    - override /env/sim/install_windows@env.sim: none
+
+env:
+    sim:
+        use_business_rules: false

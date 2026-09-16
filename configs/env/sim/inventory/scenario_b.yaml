@@ -1,0 +1,85 @@
+resource_types:
+    foundation:
+        quantity: 4
+        fabrication_schedule:
+            fab_south: [200.0, 400.0, 600.0, 800.0]
+    tp:
+        quantity: 4
+        fabrication_schedule:
+            fab_north: [100.0, 200.0, 300.0, 400.0]
+    wtg:
+        quantity: 4
+
+sites:
+    fab_north:
+        resource_types:
+            foundation:
+                capacity: 4
+            tp:
+                capacity: 4
+            wtg:
+                capacity: 4
+        initial_levels:
+            wtg: 4
+        total_capacity: 12
+
+    fab_south:
+        resource_types:
+            foundation:
+                capacity: 4
+            tp:
+                capacity: 4
+            wtg:
+                capacity: 4
+        total_capacity: 12
+
+    marshalling_yard:
+        resource_types:
+            foundation:
+                capacity: 4
+            tp:
+                capacity: 4
+            wtg:
+                capacity: 4
+        total_capacity: 12
+
+    installation_site:
+        resource_types:
+            foundation:
+                capacity: 4
+            tp:
+                capacity: 4
+            wtg:
+                capacity: 4
+        total_capacity: 12
+
+vessels:
+    HTV:
+        resource_types:
+            foundation:
+                capacity: 2
+            tp:
+                capacity: 2
+            wtg:
+                capacity: 2
+        total_capacity: 2
+
+    Barge:
+        resource_types:
+            foundation:
+                capacity: 1
+            tp:
+                capacity: 1
+            wtg:
+                capacity: 1
+        total_capacity: 1
+
+    Bokalift:
+        resource_types:
+            foundation:
+                capacity: 1
+            tp:
+                capacity: 1
+            wtg:
+                capacity: 1
+        total_capacity: 1

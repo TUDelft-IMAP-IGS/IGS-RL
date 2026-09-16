@@ -1,0 +1,8 @@
+defaults:
+    - objects@_here_: smt
+    - inventory@_here_: unique
+    - goals@_here_: unique
+    - activities@_here_: default
+    - install_windows@_here_: none
+
+use_business_rules: true

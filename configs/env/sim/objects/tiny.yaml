@@ -1,0 +1,23 @@
+sites:
+    installation_site:
+        location: [41.1, -71.1]
+        role: installation
+
+vessels:
+    HTV:
+        type: TransportProcessingResource
+        start_location: installation_site
+        role: heavy_lift
+        movable: true
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1
+
+    Bokalift:
+        type: TransportProcessingResource
+        start_location: installation_site
+        role: installer
+        movable: false
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1

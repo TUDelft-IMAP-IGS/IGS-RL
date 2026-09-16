@@ -1,0 +1,15 @@
+# @package _global_
+#
+# SMT Basic — Random baseline, marshalling + early window,
+# same reward config as the PPO time_and_storage experiment.
+#
+defaults:
+    - override /method: random
+    - override /scenario: smt_basic_marshalling_early
+    - override /reward: time_and_storage
+
+exp_name: "smt_basic__random__time_and_storage"
+
+env:
+    sim:
+        use_business_rules: true

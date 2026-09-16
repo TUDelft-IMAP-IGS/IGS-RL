@@ -1,0 +1,11 @@
+# @package _global_
+#
+# SMT Basic — single inventory, single goal, fixed Bokalift at IS
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_basic
+
+env:
+    sim:
+        use_business_rules: true

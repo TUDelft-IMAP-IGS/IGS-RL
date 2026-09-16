@@ -1,0 +1,7 @@
+# @package _global_
+#
+# SMT Tiny — minimal scenario for quick iteration and debugging
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_tiny

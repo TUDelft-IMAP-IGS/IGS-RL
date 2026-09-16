@@ -1,0 +1,10 @@
+# @package _global_
+#
+# SMT Basic — PPO + Transformer, joint action, milestone reward shaping
+#
+defaults:
+    - override /method: ppo_transformer_joint
+    - override /scenario: smt_basic
+    - override /reward: time_only
+
+exp_name: "smt_basic__ppo_transformer__milestone"

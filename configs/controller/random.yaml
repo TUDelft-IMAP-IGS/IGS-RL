@@ -1,0 +1,4 @@
+defaults:
+    - random_controller_schema
+
+_target_: eos.controllers.RandomController

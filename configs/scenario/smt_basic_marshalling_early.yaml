@@ -1,0 +1,10 @@
+# @package _global_
+#
+# SMT Basic — marshalling yard close to IS, early install window
+# Commonly used for the 12-monopile transport experiments.
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_basic
+    - override /env/sim/activities@env.sim: marshalling_close
+    - override /env/sim/install_windows@env.sim: early_window

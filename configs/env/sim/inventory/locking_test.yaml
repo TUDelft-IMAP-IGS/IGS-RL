@@ -1,0 +1,42 @@
+resource_types:
+    pile_a:
+        quantity: 4
+    pile_b:
+        quantity: 4
+
+sites:
+    test_yard:
+        resource_types:
+            pile_a:
+                capacity: 4
+            pile_b:
+                capacity: 4
+        initial_levels:
+            pile_a: 4
+            pile_b: 4
+        total_capacity: 8
+
+vessels:
+    V1:
+        resource_types:
+            pile_a:
+                capacity: 1
+            pile_b:
+                capacity: 1
+        total_capacity: 2
+
+    V2:
+        resource_types:
+            pile_a:
+                capacity: 1
+            pile_b:
+                capacity: 1
+        total_capacity: 2
+
+    V3:
+        resource_types:
+            pile_a:
+                capacity: 1
+            pile_b:
+                capacity: 1
+        total_capacity: 2

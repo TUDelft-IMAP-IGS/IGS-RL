@@ -1,0 +1,8 @@
+activities:
+    move_default: 0.5
+    load_default: 1.0
+    unload_default: 1.0
+    install_default: 1.0
+    transfer_default: 1.0
+    move_matrix: {}
+    installations: {}

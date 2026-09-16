@@ -1,0 +1,10 @@
+# @package _global_
+#
+# Scenario A — "Pipeline-vs-JIT" (PFM Demonstration)
+# 3 sites, 3 vessels, 8 monopiles with staggered fabrication.
+# Multi-objective: minimise elapsed time vs minimise storage cost.
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_scenario_a
+    - override /env/sim/activities@env.sim: marshalling_close.

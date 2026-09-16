@@ -1,0 +1,13 @@
+# @package _global_
+#
+# SMT IS — Random baseline
+#
+defaults:
+    - override /method: random
+    - override /scenario: smt_is
+    - override /reward: default
+
+exp_name: "smt_is__random__baseline"
+
+random:
+    num_episodes: 100000

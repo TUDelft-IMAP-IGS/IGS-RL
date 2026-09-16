@@ -1,0 +1,6 @@
+# @package _global_
+#
+# CartPole — simple sanity-check environment
+#
+defaults:
+    - override /env: cartpole

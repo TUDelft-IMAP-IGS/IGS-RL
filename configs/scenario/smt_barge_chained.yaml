@@ -1,0 +1,5 @@
+# @package _global_
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_barge_chained
+    - override /env/sim/activities@env.sim: marshalling_close

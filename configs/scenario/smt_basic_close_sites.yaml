@@ -1,0 +1,8 @@
+# @package _global_
+#
+# SMT Basic — close-distance sites (short travel times)
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_basic
+    - override /env/sim/activities@env.sim: close_sites

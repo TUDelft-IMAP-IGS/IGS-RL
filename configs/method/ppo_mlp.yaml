@@ -1,0 +1,16 @@
+# @package _global_
+#
+# PPO + MLP — Flat observation with per-object discrete actions
+#
+defaults:
+    - override /learner: ppo
+    - override /controller: ppo
+    - override /model: mlp
+
+_target_: eos.experiments.ppo.PPOExperiment
+
+env:
+    wrappers:
+        - eos.envs.simple_monopile_transport.wrappers.MLPObservationHygieneWrapper
+        - eos.envs.simple_monopile_transport.wrappers.FlattenObservationWrapper
+        - eos.envs.simple_monopile_transport.wrappers.DiscreteActionWrapper

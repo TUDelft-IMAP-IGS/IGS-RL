@@ -1,0 +1,19 @@
+activities:
+    move_default: 1.0
+    load_default: 8.0
+    unload_default: 8.0
+    install_default: 14.0
+    transfer_default: 3.0
+    move_matrix:
+        fabrication_yard:
+            marshalling_yard: 2.0
+            installation_site: 6.0
+        marshalling_yard:
+            fabrication_yard: 2.0
+            installation_site: 5.0
+        installation_site:
+            fabrication_yard: 6.0
+            marshalling_yard: 5.0
+    installations:
+        Bokalift: # Bokalift installs to installation site and it takes n hours
+            installation_site: 14.0

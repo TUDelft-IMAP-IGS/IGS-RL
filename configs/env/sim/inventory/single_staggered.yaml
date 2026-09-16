@@ -1,0 +1,39 @@
+resource_types:
+    monopile:
+        quantity: 12
+        fabrication_schedule:
+            fabrication_yard: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+
+sites:
+    fabrication_yard:
+        resource_types:
+            monopile:
+                capacity: 12
+        initial_levels:
+            monopile: 1
+        total_capacity: 12
+
+    marshalling_yard:
+        resource_types:
+            monopile:
+                capacity: 12
+        total_capacity: 12
+
+    installation_site:
+        resource_types:
+            monopile:
+                capacity: 12
+        total_capacity: 12
+
+vessels:
+    HTV:
+        resource_types:
+            monopile:
+                capacity: 2
+        total_capacity: 2
+
+    Bokalift:
+        resource_types:
+            monopile:
+                capacity: 1
+        total_capacity: 1

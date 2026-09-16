@@ -1,0 +1,83 @@
+[project]
+name = "eos"
+version = "0.1.0"
+description = "Reinforcement Learning framework for Discrete-Event Simulation logistics"
+readme = "README.md"
+requires-python = ">=3.12, <3.13"
+dependencies = [
+    "boka-eventsymphony>=1.5.1",
+    "boka-mde-tools>=0.3.1",
+    "gymnasium[classic-control]>=1.2.2",
+    "hydra-core>=1.3.2",
+    "hydra-joblib-launcher>=1.2.0",
+    "kaleido>=1.3.0",
+    "loguru>=0.7.3",
+    "py-spy>=0.4.2",
+    "torch>=2.9.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.7,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "furo>=2025.9.25",
+    "ipykernel>=7.1.0",
+    "jupyter>=1.1.1",
+    "moviepy==1.0.3",
+    "mypy>=1.18.2",
+    "pygame>=2.6.1",
+    "sphinx>=8.2.3",
+    "sphinx-autoapi>=3.6.1",
+    "tensorboard>=2.20.0",
+    "wandb>=0.23.1",
+    "optuna>=4",
+    "optuna-dashboard>=0.20",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "boka"
+url = "https://pkgs.dev.azure.com/boskaliscode/bokalytics/_packaging/community-feed/pypi/simple/"
+explicit = true
+
+[tool.uv.workspace]
+members = [
+    ".",
+]
+
+[tool.uv.sources]
+eos = { workspace = true, editable = true }
+torch = { index = "pytorch-cu130" }
+boka-eventsymphony = { index = "boka" }
+boka-mde-tools = { index = "boka" }
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+namespace_packages = true
+explicit_package_bases = true
+
+# Enable all strict checks
+strict = true
+
+# Less strict
+warn_return_any = false
+
+# Allow mixins from eventsymphony
+disallow_subclassing_any = false
+
+# Per-module options for third-party libraries without stubs
+[[tool.mypy.overrides]]
+module = [
+    "boka_eventsymphony.*",
+    "shapely.*",
+    "torch.*",
+    "tyro.*",
+]
+ignore_missing_imports = true

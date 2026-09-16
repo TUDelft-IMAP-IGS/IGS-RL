@@ -1,0 +1,13 @@
+goals:
+    - location: installation_site
+      resource_type: foundation
+      quantity: 4
+      deadline: null
+      reward_per_unit: 1.0
+      depends_on: []
+    - location: installation_site
+      resource_type: jacket
+      quantity: 4
+      deadline: null
+      reward_per_unit: 1.0
+      depends_on: [0]

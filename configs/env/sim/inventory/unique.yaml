@@ -1,0 +1,180 @@
+resource_types:
+    mp_1:
+        quantity: 1
+    mp_2:
+        quantity: 1
+    mp_3:
+        quantity: 1
+    mp_4:
+        quantity: 1
+    mp_5:
+        quantity: 1
+    mp_6:
+        quantity: 1
+    mp_7:
+        quantity: 1
+    mp_8:
+        quantity: 1
+    mp_9:
+        quantity: 1
+    mp_10:
+        quantity: 1
+    mp_11:
+        quantity: 1
+    mp_12:
+        quantity: 1
+
+sites:
+    fabrication_yard:
+        resource_types:
+            mp_1: &slot1
+                capacity: 1
+            mp_2:
+                <<: *slot1
+            mp_3:
+                <<: *slot1
+            mp_4:
+                <<: *slot1
+            mp_5:
+                <<: *slot1
+            mp_6:
+                <<: *slot1
+            mp_7:
+                <<: *slot1
+            mp_8:
+                <<: *slot1
+            mp_9:
+                <<: *slot1
+            mp_10:
+                <<: *slot1
+            mp_11:
+                <<: *slot1
+            mp_12:
+                <<: *slot1
+        initial_levels:
+            mp_1: 1
+            mp_2: 1
+            mp_3: 1
+            mp_4: 1
+            mp_5: 1
+            mp_6: 1
+            mp_7: 1
+            mp_8: 1
+            mp_9: 1
+            mp_10: 1
+            mp_11: 1
+            mp_12: 1
+        total_capacity: 12
+
+    marshalling_yard:
+        resource_types:
+            mp_1:
+                <<: *slot1
+            mp_2:
+                <<: *slot1
+            mp_3:
+                <<: *slot1
+            mp_4:
+                <<: *slot1
+            mp_5:
+                <<: *slot1
+            mp_6:
+                <<: *slot1
+            mp_7:
+                <<: *slot1
+            mp_8:
+                <<: *slot1
+            mp_9:
+                <<: *slot1
+            mp_10:
+                <<: *slot1
+            mp_11:
+                <<: *slot1
+            mp_12:
+                <<: *slot1
+        total_capacity: 12
+
+    installation_site:
+        resource_types:
+            mp_1:
+                <<: *slot1
+            mp_2:
+                <<: *slot1
+            mp_3:
+                <<: *slot1
+            mp_4:
+                <<: *slot1
+            mp_5:
+                <<: *slot1
+            mp_6:
+                <<: *slot1
+            mp_7:
+                <<: *slot1
+            mp_8:
+                <<: *slot1
+            mp_9:
+                <<: *slot1
+            mp_10:
+                <<: *slot1
+            mp_11:
+                <<: *slot1
+            mp_12:
+                <<: *slot1
+        total_capacity: 12
+
+vessels:
+    HTV:
+        resource_types:
+            mp_1:
+                <<: *slot1
+            mp_2:
+                <<: *slot1
+            mp_3:
+                <<: *slot1
+            mp_4:
+                <<: *slot1
+            mp_5:
+                <<: *slot1
+            mp_6:
+                <<: *slot1
+            mp_7:
+                <<: *slot1
+            mp_8:
+                <<: *slot1
+            mp_9:
+                <<: *slot1
+            mp_10:
+                <<: *slot1
+            mp_11:
+                <<: *slot1
+            mp_12:
+                <<: *slot1
+        total_capacity: 2
+
+    Bokalift:
+        resource_types:
+            mp_1:
+                <<: *slot1
+            mp_2:
+                <<: *slot1
+            mp_3:
+                <<: *slot1
+            mp_4:
+                <<: *slot1
+            mp_5:
+                <<: *slot1
+            mp_6:
+                <<: *slot1
+            mp_7:
+                <<: *slot1
+            mp_8:
+                <<: *slot1
+            mp_9:
+                <<: *slot1
+            mp_10:
+                <<: *slot1
+            mp_11:
+                <<: *slot1
+            mp_12:
+                <<: *slot1
+        total_capacity: 1

@@ -1,0 +1,49 @@
+defaults:
+    - sim: smt_locking_test
+
+env_id: "SimpleMonopileTransport-v0"
+use_action_masks: true
+wrappers:
+    - eos.envs.simple_monopile_transport.wrappers.ObservationHygieneWrapper
+    - eos.envs.simple_monopile_transport.wrappers.FlattenObservationWrapper
+    - eos.envs.simple_monopile_transport.wrappers.DiscreteActionWrapper
+allow_idle_actions: false
+time_budget: 24000.0
+max_episode_steps: 256
+beta: null
+
+reward:
+    completion_bonus: 0.0
+    milestone:
+        stage_weights:
+            at_source: 0.0
+            on_heavy_lift: 0.0
+            at_staging: 0.0
+            on_feeder: 0.0
+            on_installer: 0.0
+            at_goal: 0.0
+        urgency_scale: 0.0
+        urgency_mode: linear
+    costs:
+        weight: 0.0
+        elapsed_time:
+            enabled: false
+            weight: 0.0
+            rate: 0.0
+        travel:
+            enabled: false
+            weight: 0.0
+            rates: {}
+        storage:
+            enabled: false
+            weight: 0.0
+            rates: {}
+
+render:
+    mode: null
+    width: 1280
+    height: 720
+    panel_width: 420
+    font_size: 16
+    fps: 15
+    show_inventory: true

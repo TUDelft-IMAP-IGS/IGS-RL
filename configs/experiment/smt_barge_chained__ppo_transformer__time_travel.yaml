@@ -1,0 +1,7 @@
+# @package _global_
+defaults:
+    - override /method: ppo_transformer_joint
+    - override /scenario: smt_barge_chained
+    - override /reward: time_and_travel
+
+exp_name: "smt_barge_chained__ppo_transformer__time_travel"

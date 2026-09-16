@@ -1,0 +1,13 @@
+# @package _global_
+#
+# SMT Movable Boka — same as smt_basic but Bokalift can move between sites
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_movable_boka
+
+env:
+    sim:
+        vessels:
+            Bokalift:
+                movable: true

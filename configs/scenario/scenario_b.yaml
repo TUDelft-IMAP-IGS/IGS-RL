@@ -1,0 +1,12 @@
+# @package _global_
+#
+# Scenario B — "Scaled Campaign" (Deep RL Justification)
+# 4 sites, 3 vessels, 3 resource types (foundation, TP, WTG).
+# Per-unit dependencies: foundation → TP → WTG.
+# Staggered fabrication + WTGs available from start.
+# Single-objective: minimise elapsed time.
+#
+defaults:
+    - override /env: smt
+    - override /env/sim: smt_scenario_b
+    - override /env/sim/activities@env.sim: scenario_b

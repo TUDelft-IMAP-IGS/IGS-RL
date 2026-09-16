@@ -1,0 +1,5 @@
+defaults:
+    - ppo_controller_schema
+
+_target_: eos.controllers.PPOController
+deterministic: false

@@ -1,0 +1,4 @@
+defaults:
+  - sim: null
+
+env_id: "CartPole-v1"

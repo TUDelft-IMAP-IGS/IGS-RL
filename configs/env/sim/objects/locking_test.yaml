@@ -1,0 +1,32 @@
+sites:
+    test_yard:
+        location: [50.0, 5.0]
+        role: staging
+
+vessels:
+    V1:
+        type: TransportProcessingResource
+        start_location: test_yard
+        role: heavy_lift
+        movable: true
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1
+
+    V2:
+        type: TransportProcessingResource
+        start_location: test_yard
+        role: heavy_lift
+        movable: true
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1
+
+    V3:
+        type: TransportProcessingResource
+        start_location: test_yard
+        role: heavy_lift
+        movable: true
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1

@@ -1,0 +1,25 @@
+# @package _global_
+#
+# Random baseline — uniform action sampling
+# No learner or model needed; uses RandomController.
+#
+defaults:
+    - override /controller: random
+
+_target_: eos.experiments.random.RandomExperiment
+num_envs: 32
+normalize_rewards: false
+log_dir_level: ERROR
+
+env:
+    wrappers:
+        - eos.envs.simple_monopile_transport.wrappers.TransformerObservationHygieneWrapper
+        - eos.envs.simple_monopile_transport.wrappers.StructuredObservationWrapper
+        - eos.envs.simple_monopile_transport.wrappers.JointDiscreteActionWrapper
+
+    sim:
+        use_business_rules: true
+
+random:
+    num_episodes: 10000
+    deterministic_seed: true

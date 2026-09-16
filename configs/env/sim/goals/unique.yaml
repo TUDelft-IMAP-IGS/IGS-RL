@@ -1,0 +1,61 @@
+goals:
+    - location: installation_site
+      resource_type: mp_1
+      quantity: 1
+      deadline: 320
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_2
+      quantity: 1
+      deadline: 1000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_3
+      quantity: 1
+      deadline: 2000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_4
+      quantity: 1
+      deadline: 3000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_5
+      quantity: 1
+      deadline: 4000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_6
+      quantity: 1
+      deadline: 5000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_7
+      quantity: 1
+      deadline: 6000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_8
+      quantity: 1
+      deadline: 7000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_9
+      quantity: 1
+      deadline: 8000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_10
+      quantity: 1
+      deadline: 9000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_11
+      quantity: 1
+      deadline: 10000
+      reward_per_unit: 1.0
+    - location: installation_site
+      resource_type: mp_12
+      quantity: 1
+      deadline: 11000
+      reward_per_unit: 1.0

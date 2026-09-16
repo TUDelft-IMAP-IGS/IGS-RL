@@ -1,0 +1,14 @@
+# @package _global_
+#
+# SMT IS — PPO + Transformer, joint action, milestone reward
+#
+defaults:
+    - override /method: ppo_transformer_joint
+    - override /scenario: smt_is
+    - override /reward: time_only
+
+exp_name: "smt_is__ppo_transformer__milestone"
+
+env:
+    sim:
+        use_business_rules: false

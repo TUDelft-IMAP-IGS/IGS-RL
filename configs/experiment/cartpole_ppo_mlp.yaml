@@ -1,0 +1,13 @@
+# @package _global_
+#
+# CartPole — PPO + MLP baseline (sanity check)
+#
+defaults:
+    - override /method: ppo_mlp
+    - override /scenario: cartpole
+    - override /reward: default
+
+exp_name: "cartpole__ppo_mlp"
+
+env:
+    wrappers: []

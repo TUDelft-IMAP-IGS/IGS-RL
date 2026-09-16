@@ -1,0 +1,40 @@
+sites:
+    fabrication_yard:
+        location: [57.0, 10.0]
+        role: source
+
+    marshalling_yard:
+        location: [53.5, 8.5]
+        role: staging
+
+    installation_site:
+        location: [41.1, -71.1]
+        role: installation
+
+vessels:
+    HTV:
+        type: TransportProcessingResource
+        start_location: fabrication_yard
+        role: heavy_lift
+        movable: true
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1
+
+    Barge:
+        type: TransportProcessingResource
+        start_location: installation_site
+        role: feeder
+        movable: true
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1
+
+    Bokalift:
+        type: TransportProcessingResource
+        start_location: installation_site
+        role: installer
+        movable: false
+        speed: 10
+        loading_rate: 1
+        unloading_rate: 1

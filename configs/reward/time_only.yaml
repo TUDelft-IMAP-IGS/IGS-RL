@@ -1,0 +1,29 @@
+# @package _global_
+#
+# Reward: DPBRS milestone shaping + terminal cost evaluation (elapsed time only)
+#
+env:
+    reward:
+        completion_bonus: 50.0
+
+        milestone:
+            stage_weights:
+                at_source: 0.0
+                on_heavy_lift: 0.2
+                at_staging: 0.4
+                on_feeder: 0.6
+                on_installer: 0.8
+                at_goal: 1.0
+            urgency_scale: 1.0
+            urgency_mode: linear
+
+        costs:
+            weight: 1.0
+            elapsed_time:
+                enabled: true
+                weight: 1.0
+                rate: 0.085
+            travel:
+                enabled: false
+            storage:
+                enabled: false
