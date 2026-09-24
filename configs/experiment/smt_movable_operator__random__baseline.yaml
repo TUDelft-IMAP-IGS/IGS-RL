@@ -1,13 +1,13 @@
 # @package _global_
 #
-# SMT Movable Boka — Random baseline
+# SMT Movable Operator — Random baseline
 #
 defaults:
     - override /method: random
-    - override /scenario: smt_movable_boka
+    - override /scenario: smt_movable_operator
     - override /reward: default
 
-exp_name: "smt_movable_boka__random__baseline"
+exp_name: "smt_movable_operator__random__baseline"
 
 random:
     num_episodes: 100000

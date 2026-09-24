@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Dict, List, Set
 
-import boka_eventsymphony.core as es_core
-import boka_eventsymphony.model as es_model
+import des_package.core as des_core
+import des_package.model as des_model
 from loguru import logger
 
 from .types import (
@@ -34,9 +34,9 @@ class ActivityTracker:
         ----------
         name : str
             Unique name of the activity.
-        activity : es_model.GenericActivity
-            Reference to the EventSymphony activity.
-        state : es_core.CurrentActivityState
+        activity : des_model.GenericActivity
+            Reference to the DES activity.
+        state : des_core.CurrentActivityState
             Current state of the activity (PENDING, ACTIVE, PROCESSED, etc.).
         vessels : Dict[str, Vessel]
             Vessels associated with this activity (mover, processor, etc.).
@@ -51,8 +51,8 @@ class ActivityTracker:
         """
 
         name: str
-        activity: es_model.GenericActivity
-        state: es_core.CurrentActivityState
+        activity: des_model.GenericActivity
+        state: des_core.CurrentActivityState
         vessels: Dict[str, Vessel]
         sites: Dict[str, Site]
         registered_step: int
@@ -76,20 +76,20 @@ class ActivityTracker:
 
     def register_activity(
         self,
-        activity: es_model.GenericActivity,
+        activity: des_model.GenericActivity,
         current_step: int,
     ) -> None:
         """Register a new activity for tracking.
 
         Parameters
         ----------
-        activity : es_model.GenericActivity
+        activity : des_model.GenericActivity
             The activity to track.
         current_step : int
             Current simulation step.
         """
 
-        if activity.state != es_core.CurrentActivityState.PENDING:
+        if activity.state != des_core.CurrentActivityState.PENDING:
             logger.error(
                 f"Attempting to register activity which is not pending. step={current_step}, activity={activity.name}, activity_state={activity.state.value}"
             )
@@ -166,7 +166,7 @@ class ActivityTracker:
             # Track state transitions
             if old_state != new_state:
                 if (
-                    new_state == es_core.CurrentActivityState.ACTIVE
+                    new_state == des_core.CurrentActivityState.ACTIVE
                     and activity_state.start_step is None
                 ):
                     activity_state.start_step = current_step
@@ -175,7 +175,7 @@ class ActivityTracker:
                         f"Activity '{activity_name}' became active at step {current_step}"
                     )
 
-                elif new_state == es_core.CurrentActivityState.PROCESSED:
+                elif new_state == des_core.CurrentActivityState.PROCESSED:
                     activity_state.completion_step = current_step
                     self._just_completed.add(activity_state)
                     logger.debug(
@@ -245,7 +245,7 @@ class ActivityTracker:
         return [
             state
             for state in self._activity_states.values()
-            if state.state == es_core.CurrentActivityState.ACTIVE
+            if state.state == des_core.CurrentActivityState.ACTIVE
         ]
 
     def get_pending_activities(self) -> List["ActivityTracker.ActivityState"]:
@@ -259,7 +259,7 @@ class ActivityTracker:
         return [
             state
             for state in self._activity_states.values()
-            if state.state == es_core.CurrentActivityState.PENDING
+            if state.state == des_core.CurrentActivityState.PENDING
         ]
 
     def get_completed_activities(self) -> List["ActivityTracker.ActivityState"]:
@@ -273,7 +273,7 @@ class ActivityTracker:
         return [
             state
             for state in self._activity_states.values()
-            if state.state == es_core.CurrentActivityState.PROCESSED
+            if state.state == des_core.CurrentActivityState.PROCESSED
         ]
 
     def get_vessels_in_active_activities(self) -> Set[Vessel]:

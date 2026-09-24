@@ -22,5 +22,5 @@ activities:
             fab_south: 70.0
             marshalling_yard: 15.0
     installations:
-        Bokalift:
+        installation_vessel:
             installation_site: 40.0

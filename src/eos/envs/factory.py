@@ -122,7 +122,7 @@ def make_env(
             # cfg.seed + idx.  The SMT env's own randomness uses the
             # per-instance self.np_random (seeded via reset(seed=...) over
             # IPC) and is unaffected by this, but some DES library code
-            # (e.g. boka_eventsymphony's stochastic delay plugin) draws
+            # (e.g. des_package's stochastic delay plugin) draws
             # from the global np.random.  Under "fork" workers inherited
             # the parent's seeded global RNG; under "spawn" they start from
             # OS entropy, so we re-seed here to keep runs reproducible.

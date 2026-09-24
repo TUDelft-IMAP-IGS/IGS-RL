@@ -1,6 +1,6 @@
 """Travel cost component – charges a per-vessel hourly rate while travelling.
 
-Each vessel can have its own rate (e.g. Bokalift is more expensive than HTV).
+Each vessel can have its own rate (e.g. installation_vessel is more expensive than HTV).
 
 Travel detection uses the :class:`ActivityTracker` information provided via
 :class:`CostContext` rather than the old position-change heuristic.

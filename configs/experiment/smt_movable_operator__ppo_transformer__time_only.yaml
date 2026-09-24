@@ -1,11 +1,11 @@
 # @package _global_
 #
-# SMT Movable Boka — PPO + Transformer, joint action, time cost only
-# Optimal policy: Boka shuttles MY <-> IS while HTV feeds FY -> MY.
+# SMT Movable Operator — PPO + Transformer, joint action, time cost only
+# Optimal policy: Operator shuttles MY <-> IS while HTV feeds FY -> MY.
 #
 defaults:
     - override /method: ppo_transformer_joint
-    - override /scenario: smt_movable_boka
+    - override /scenario: smt_movable_operator
     - override /reward: time_only
 
-exp_name: "smt_movable_boka__ppo_transformer__time_only"
+exp_name: "smt_movable_operator__ppo_transformer__time_only"

@@ -88,7 +88,7 @@ class VesselConfig:
     Attributes
     ----------
     type : str
-        EventSymphony class name (``"TransportProcessingResource"`` or
+        DES class name (``"TransportProcessingResource"`` or
         ``"InstallationAsset"``).
     start_location : str
         Name of the site where the vessel starts.
@@ -117,9 +117,9 @@ class VesselConfig:
     speed : float | None
         Vessel speed (distance-units per hour).
     loading_rate : float | None
-        Loading rate parameter forwarded to EventSymphony.
+        Loading rate parameter forwarded to DES.
     unloading_rate : float | None
-        Unloading rate parameter forwarded to EventSymphony.
+        Unloading rate parameter forwarded to DES.
     """
 
     type: str
@@ -240,7 +240,7 @@ class SimConfig:
 
     Notes
     -----
-    ``is_bokalift_movable`` is **deprecated**.  Use the per-vessel
+    ``is_installation_vessel_movable`` is **deprecated**.  Use the per-vessel
     ``movable`` flag on :class:`VesselConfig` instead.  When the
     per-vessel flag is explicitly set it takes precedence; when it is
     left at its default the simulator falls back to this global flag
@@ -827,7 +827,7 @@ class EOSConfig:
     cuda: bool = False
     track: bool = False
     wandb_project_name: str = "eos"
-    wandb_entity: str = "dimitrisxynogalas-tu-delft"
+    wandb_entity: str = "user_name"
     capture_video: bool = False
     total_timesteps: int = 500000
     num_envs: int = 4

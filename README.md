@@ -1,8 +1,8 @@
 # EOS: Reinforcement Learning for Logistics Discrete-Event Simulation
 
-**EOS** is a Reinforcement Learning (RL) framework engineered to optimize complex marine logistics in Discrete-Event Simulation (DES) environments. The primary environment is `SimpleMonopileTransport-v0` (SMT), which models the transport, staging, and installation of offshore wind turbine monopiles using Heavy Transport Vessels (HTVs), Installation Vessels (e.g. *Bokalift*), and Feeder Barges between Fabrication Yards, Marshalling Ports, and Offshore Installation Sites.
+**EOS** is a Reinforcement Learning (RL) framework engineered to optimize complex marine logistics in Discrete-Event Simulation (DES) environments. The primary environment is `SimpleMonopileTransport-v0` (SMT), which models the transport, staging, and installation of offshore wind turbine monopiles using Heavy Transport Vessels (HTVs), Installation Vessels (e.g. *installation_vessel*), and Feeder Barges between Fabrication Yards, Marshalling Ports, and Offshore Installation Sites.
 
-The simulation core is powered by the [`boka_eventsymphony`](https://pkgs.dev.azure.com/boskaliscode/bokalytics/_packaging/community-feed/pypi/simple/) DES engine. The primary RL algorithm is Proximal Policy Optimization (PPO), utilizing an entity-centric Transformer architecture capable of handling variable fleets, site inventories, and multi-vessel simultaneous decision-making.
+The simulation core is powered by the [`des_package`](https://pkgs.internal.example.com/org/simulation/_packaging/internal-feed/pypi/simple/) DES engine. The primary RL algorithm is Proximal Policy Optimization (PPO), utilizing an entity-centric Transformer architecture capable of handling variable fleets, site inventories, and multi-vessel simultaneous decision-making.
 
 ---
 
@@ -149,7 +149,7 @@ eos/
 │   │   ├── factory.py             # make_env() constructor applying wrappers
 │   │   └── simple_monopile_transport/
 │   │       ├── gym_env.py         # Gymnasium Environment implementation
-│   │       ├── simulator.py       # EventSymphony DES wrapper and action generator
+│   │       ├── simulator.py       # DES engine wrapper and action generator
 │   │       ├── reservation_system.py # Resource reservation & shadow ledger
 │   │       ├── activity_builder.py# Discrete-event action construction & stochasticity
 │   │       ├── milestone_tracker.py# DPBRS potential calculation
@@ -183,7 +183,7 @@ EOS uses [Hydra](https://hydra.cc/) with type-safe OmegaConf dataclasses defined
 
 | Axis | Path | Description | Examples |
 |------|------|-------------|----------|
-| **Scenario** | `configs/scenario/` | Fleet composition, site locations, monopile count | `smt_basic`, `smt_barge`, `smt_is`, `smt_movable_boka` |
+| **Scenario** | `configs/scenario/` | Fleet composition, site locations, monopile count | `smt_basic`, `smt_barge`, `smt_is`, `smt_movable_operator` |
 | **Method** | `configs/method/` | Model architecture, action space, policy | `ppo_transformer_joint`, `ppo_transformer_discrete`, `ppo_mlp`, `random` |
 | **Reward** | `configs/reward/` | Milestone weights, cost components, PFM | `time_only`, `time_and_storage`, `time_and_travel`, `pfm_time_and_storage` |
 | **Experiment** | `configs/experiment/` | Pre-packaged compositions of scenario + method + reward | `smt_basic__ppo_transformer__time_and_storage` |
@@ -204,7 +204,7 @@ EOS uses [`uv`](https://docs.astral.sh/uv/) for high-performance Python package 
 1. **Prerequisites**:
    - Python 3.12 (`>=3.12, <3.13`)
    - `uv` installed (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
-   - Access to the internal Boskalis Azure DevOps package feed (`boka-eventsymphony`, `boka-mde-tools`)
+   - Access to the internal package feed (`des_package`, `helper_tools`)
 
 2. **Sync the virtual environment**:
    ```bash

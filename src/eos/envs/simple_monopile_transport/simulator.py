@@ -28,7 +28,7 @@ Fabrication Scheduling (Phase 2)
 --------------------------------
 When a ``ResourceTypeConfig`` contains a non-empty ``fabrication_schedule``,
 the simulator spawns time-gated DES ``ShiftAmountActivity`` instances that
-insert resources into source sites on schedule.  To satisfy the ES
+insert resources into source sites on schedule.  To satisfy the DES
 requirement that ``ShiftAmountActivity`` has a co-located origin, a hidden
 *phantom vessel* is created at each source site that participates in
 fabrication.  These phantom vessels are fully encapsulated: they do not
@@ -40,8 +40,8 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Set, Tuple
 from zoneinfo import ZoneInfo
 
-import boka_eventsymphony.core as es_core
-import boka_eventsymphony.model as es_model
+import des_package.core as des_core
+import des_package.model as des_model
 import numpy as np
 import shapely.geometry.point
 from loguru import logger
@@ -67,9 +67,9 @@ from .types import (
 )
 from .utils import log_sim_objects
 
-# Note on EventSymphony Activity Timers:
+# Note on DES Activity Timers:
 # Retrieving the exact expected completion time of an activity dynamically
-# is constrained by ES event-queue resolution; activities compute active/pending
+# is constrained by DES event-queue resolution; activities compute active/pending
 # durations upon event triggering or schedule milestones.
 
 
@@ -129,8 +129,8 @@ class SimpleMonopileTransportSim:
 
     Attributes
     ----------
-    es_env : es_core.Environment
-        The underlying EventSymphony simulation environment.
+    des_env : des_core.Environment
+        The underlying DES simulation environment.
     registry : Dict[str, Any]
         Central registry containing all simulation objects and activities.
     sim_step : int
@@ -139,7 +139,7 @@ class SimpleMonopileTransportSim:
         Names of all vessels in the simulation.
     busy_vessels : List[Vessel]
         Vessels currently engaged in unfinished activities.
-    activities_per_vessel : Dict[str, List[es_model.GenericActivity]]
+    activities_per_vessel : Dict[str, List[des_model.GenericActivity]]
         Possible activities for each vessel at initialization.
 
     Notes
@@ -162,10 +162,10 @@ class SimpleMonopileTransportSim:
         # Core simulation infrastructure
         self.registry: Dict[str, Any] = {}
         self.simulation_start: datetime.datetime = simulation_start
-        self.es_env: es_core.Environment = es_core.create_environment(
+        self.des_env: des_core.Environment = des_core.create_environment(
             initial_time=simulation_start, environment_type="standard"
         )
-        self.es_env.registry = self.registry
+        self.des_env.registry = self.registry
 
         # Load configuration
         self.config: SimConfig = cfg
@@ -184,7 +184,7 @@ class SimpleMonopileTransportSim:
 
         # Initialize ActivityBuilder for creating activities from action specs
         self._activity_builder = ActivityBuilder(
-            env=self.es_env,
+            env=self.des_env,
             registry=self.registry,
             config=self.config.activities,
             no_install_windows=self.config.no_install_windows,
@@ -280,7 +280,7 @@ class SimpleMonopileTransportSim:
     @property
     def elapsed_time(self) -> float:
         """The elapsed time since simulation start in seconds"""
-        return self.es_env.now - self.simulation_start.timestamp()
+        return self.des_env.now - self.simulation_start.timestamp()
 
     # =========================================================================
     # Public API Methods
@@ -297,7 +297,7 @@ class SimpleMonopileTransportSim:
         if self._is_terminal():
             return True
 
-        self.es_env.next_step()
+        self.des_env.next_step()
 
         self.sim_step += 1
 
@@ -365,7 +365,7 @@ class SimpleMonopileTransportSim:
         )
 
         # Check goals based on container levels using POSIX timestamp
-        self._goal_tracker.check_goals(self.es_env.now)
+        self._goal_tracker.check_goals(self.des_env.now)
 
         # Log goal completion status
         completed_this_step = self._goal_tracker.get_completed_this_step()
@@ -381,18 +381,18 @@ class SimpleMonopileTransportSim:
         return self._is_terminal()
 
     def set_activities(
-        self, activity_per_vessel: Dict[str, es_model.GenericActivity]
+        self, activity_per_vessel: Dict[str, des_model.GenericActivity]
     ) -> None:
         """Register new activities for specified vessels.
 
         Parameters
         ----------
-        activity_per_vessel : Dict[str, es_model.GenericActivity]
+        activity_per_vessel : Dict[str, des_model.GenericActivity]
             Mapping from vessel name to the activity to register.
         """
         for vessel_name, activity in activity_per_vessel.items():
-            es_model.register_additional_processes(
-                self.es_env,
+            des_model.register_additional_processes(
+                self.des_env,
                 activity,
                 simulation_object=self._vessels_by_name[vessel_name],
             )
@@ -404,7 +404,7 @@ class SimpleMonopileTransportSim:
         return len(self._vessels_by_name)
 
     def get_num_sites(self) -> int:
-        return len(self.es_env.registry["sim_objects"]["Site"])
+        return len(self.des_env.registry["sim_objects"]["Site"])
 
     def get_vessel_names(self) -> List[str]:
         """Get names of all vessels in the simulation.
@@ -548,7 +548,7 @@ class SimpleMonopileTransportSim:
             if any(v.name == vessel for v in state.vessels.values())
         ]
 
-    def get_possible_activities(self, vessel: str) -> List[es_model.GenericActivity]:
+    def get_possible_activities(self, vessel: str) -> List[des_model.GenericActivity]:
         vessel_obj = self._vessels_by_name[vessel]
         return self._get_possible_activities(vessel_obj)
 
@@ -737,7 +737,7 @@ class SimpleMonopileTransportSim:
         the observation shape is uniform across all sites.  Types the
         site doesn't handle get ``{load: 0, capacity: 0}``.
         """
-        sites = self.es_env.registry["sim_objects"]["Site"]
+        sites = self.des_env.registry["sim_objects"]["Site"]
         site = sites[site_name]
         result = {}
         for rtype in self.resource_names:
@@ -783,7 +783,7 @@ class SimpleMonopileTransportSim:
 
         return base
 
-    def register_action_from_spec(self, spec: ActionSpec) -> es_model.GenericActivity:
+    def register_action_from_spec(self, spec: ActionSpec) -> des_model.GenericActivity:
         """Register an activity from an ActionSpec.
 
         Parameters
@@ -820,7 +820,7 @@ class SimpleMonopileTransportSim:
 
     def register_action_from_sequential_spec(
         self, vessel_names: List[str], spec: SequentialActionSpec
-    ) -> es_model.GenericActivity:
+    ) -> des_model.GenericActivity:
         # Use ActivityBuilder to create the activity
         activity = self._activity_builder.build(spec)
 
@@ -869,7 +869,7 @@ class SimpleMonopileTransportSim:
         ValueError
             If the vessel's location cannot be determined from its geometry.
         """
-        for site in self.es_env.registry["sim_objects"]["Site"].values():
+        for site in self.des_env.registry["sim_objects"]["Site"].values():
             if hasattr(vessel, "geometry") and site.geometry == vessel.geometry:
                 return site
         raise ValueError(f"Vessel {vessel.name} location unknown")
@@ -888,14 +888,14 @@ class SimpleMonopileTransportSim:
         """
         vessels: List[Vessel] = []
         for v in (
-            self.es_env.registry["sim_objects"]
+            self.des_env.registry["sim_objects"]
             .get("TransportProcessingResource", {})
             .values()
         ):
             if v.name not in self._phantom_vessel_names:
                 vessels.append(v)
         for v in (
-            self.es_env.registry["sim_objects"].get("InstallationAsset", {}).values()
+            self.des_env.registry["sim_objects"].get("InstallationAsset", {}).values()
         ):
             if v.name not in self._phantom_vessel_names:
                 vessels.append(v)
@@ -909,7 +909,7 @@ class SimpleMonopileTransportSim:
         List[Site]
             List of all Site objects.
         """
-        return self.es_env.registry["sim_objects"]["Site"].values()
+        return self.des_env.registry["sim_objects"]["Site"].values()
 
     # =========================================================================
     # Rule-Based Activity Generation
@@ -999,7 +999,7 @@ class SimpleMonopileTransportSim:
         vessel_site = self._get_vessel_site(vessel)
 
         # Convenience accessor for site destinations
-        sites: Dict[str, Site] = self.es_env.registry["sim_objects"]["Site"]
+        sites: Dict[str, Site] = self.des_env.registry["sim_objects"]["Site"]
 
         # Resources available in the simulation
         resource_names = self.resource_names
@@ -1670,7 +1670,7 @@ class SimpleMonopileTransportSim:
 
     def _get_possible_activities(
         self, vessel: TransportProcessingResource
-    ) -> List[es_model.GenericActivity]:
+    ) -> List[des_model.GenericActivity]:
         """Generate possible activities for a vessel based on current state.
 
         This method now delegates to get_possible_actions to get specs,
@@ -1683,7 +1683,7 @@ class SimpleMonopileTransportSim:
 
         Returns
         -------
-        List[es_model.GenericActivity]
+        List[des_model.GenericActivity]
             All activities that are valid given the current vessel and site state.
         """
         action_specs = self.get_possible_actions(vessel.name)
@@ -1708,20 +1708,20 @@ class SimpleMonopileTransportSim:
     # =========================================================================
 
     def _initialize_dummy_activities(self) -> None:
-        """Initialize dummy activity required by EventSymphony.
+        """Initialize dummy activity required by DES.
 
-        EventSymphony's dynamic mode requires at least one activity in the
+        DES's dynamic mode requires at least one activity in the
         registry before the simulation can proceed. This creates a zero-duration
         BasicActivity and processes it immediately.
         """
-        dummy_activity = es_model.BasicActivity(
-            env=self.es_env,
+        dummy_activity = des_model.BasicActivity(
+            env=self.des_env,
             name="Initialization dummy activity",
-            registry=self.es_env.registry,
+            registry=self.des_env.registry,
             duration=0,
         )
-        es_model.register_processes([dummy_activity])
-        self.es_env.next_step()
+        des_model.register_processes([dummy_activity])
+        self.des_env.next_step()
 
     def _build_vessel_lookup(self) -> Dict[str, Vessel]:
         """Build a name-to-vessel lookup dictionary.
@@ -1793,7 +1793,7 @@ class SimpleMonopileTransportSim:
         Uses the per-vessel ``movable`` flag from :class:`VesselConfig`.
         For backward compatibility, if the flag is not explicitly set and
         the vessel is an installer, falls back to the (deprecated)
-        global ``is_bokalift_movable`` flag on :class:`SimConfig`.
+        global ``is_installation_vessel_movable`` flag on :class:`SimConfig`.
         """
         vcfg = self.config.vessels[vessel_name]
         # If the config explicitly carries a `movable` field, use it.
@@ -1802,7 +1802,7 @@ class SimpleMonopileTransportSim:
         # Fallback: transport vessels are always movable; installer vessels
         # defer to the deprecated global flag.
         if self._is_installer_vessel(vessel_name):
-            return self.config.is_bokalift_movable
+            return self.config.is_installation_vessel_movable
         return True
 
     def _get_sites_by_role(self, role: SiteRole) -> Dict[str, Site]:
@@ -1877,7 +1877,7 @@ class SimpleMonopileTransportSim:
                 initials.append({"id": rtype, "level": level, "capacity": capacity})
 
             Site(
-                env=self.es_env,
+                env=self.des_env,
                 name=name,
                 geometry=location,
                 initials=initials,
@@ -1885,7 +1885,7 @@ class SimpleMonopileTransportSim:
             )
 
         # Build Vessels
-        sites_registry = self.es_env.registry["sim_objects"]["Site"]
+        sites_registry = self.des_env.registry["sim_objects"]["Site"]
 
         for name, data in self.config.vessels.items():
             start_location_name = data.start_location
@@ -1909,7 +1909,7 @@ class SimpleMonopileTransportSim:
             vessel_type = data.type
 
             common_args = {
-                "env": self.es_env,
+                "env": self.des_env,
                 "name": name,
                 "geometry": start_location,
                 "initials": initials,
@@ -1934,7 +1934,7 @@ class SimpleMonopileTransportSim:
                 raise ValueError(f"Unknown vessel type: {vessel_type}")
 
         # Debug logging
-        log_sim_objects(self.es_env.registry)
+        log_sim_objects(self.des_env.registry)
 
     def _parse_location(self, loc_data: List[float]) -> shapely.geometry.point.Point:
         """Convert list [x, y] to Point(x, y)."""
@@ -1957,7 +1957,7 @@ class SimpleMonopileTransportSim:
            **all** the resource slots it needs.
         2. Creates a hidden *phantom vessel* co-located with each source
            site.  The phantom holds enough capacity to act as the
-           ``origin`` for ``ShiftAmountActivity`` (ES requires a
+           ``origin`` for ``ShiftAmountActivity`` (DES requires a
            co-located origin with a container).  Each slot is pre-loaded
            with the total future units for that resource type.
         3. Spawns one ``ShiftAmountActivity`` per future fabrication entry
@@ -1973,7 +1973,7 @@ class SimpleMonopileTransportSim:
         excluded from ``_get_all_vessels`` so they never leak into
         observations, action masks, or training data.
         """
-        sites_registry = self.es_env.registry["sim_objects"]["Site"]
+        sites_registry = self.des_env.registry["sim_objects"]["Site"]
 
         # --- Pass 1: Pre-collect resource slots per source site ----------
         # phantom_specs[source_site_name] -> list of {"id": rtype, "level": N, "capacity": N}
@@ -2024,7 +2024,7 @@ class SimpleMonopileTransportSim:
             source_site = sites_registry[source_site_name]
 
             TransportProcessingResource(
-                env=self.es_env,
+                env=self.des_env,
                 name=phantom_name,
                 geometry=source_site.geometry,
                 initials=initials,
@@ -2051,8 +2051,8 @@ class SimpleMonopileTransportSim:
                 )
 
                 # Register with DES (dynamic registration)
-                es_model.register_additional_processes(
-                    self.es_env,
+                des_model.register_additional_processes(
+                    self.des_env,
                     activity,
                     simulation_object=phantom_vessel,
                 )
@@ -2095,7 +2095,7 @@ class SimpleMonopileTransportSim:
         )
 
     def _get_phantom_vessel(self, phantom_name: str) -> TransportProcessingResource:
-        """Look up a phantom vessel by name from the ES registry.
+        """Look up a phantom vessel by name from the DES registry.
 
         Parameters
         ----------
@@ -2112,7 +2112,7 @@ class SimpleMonopileTransportSim:
         KeyError
             If the phantom vessel is not found in the registry.
         """
-        return self.es_env.registry["sim_objects"]["TransportProcessingResource"][
+        return self.des_env.registry["sim_objects"]["TransportProcessingResource"][
             phantom_name
         ]
 
@@ -2123,7 +2123,7 @@ class SimpleMonopileTransportSim:
         resource_name: str,
         fab_time_hours: float,
         short_id: str,
-    ) -> es_model.ShiftAmountActivity:
+    ) -> des_model.ShiftAmountActivity:
         """Build a single time-gated ``ShiftAmountActivity`` for fabrication.
 
         The activity transfers 1 unit of *resource_name* from the
@@ -2144,12 +2144,12 @@ class SimpleMonopileTransportSim:
 
         Returns
         -------
-        es_model.ShiftAmountActivity
+        des_model.ShiftAmountActivity
             The constructed (but not yet registered) activity.
         """
-        # Convert hours → absolute datetime for ES time gate
+        # Convert hours → absolute datetime for DES time gate
         fab_epoch = self.simulation_start.timestamp() + fab_time_hours * 3600
-        fab_dt = datetime.datetime.fromtimestamp(fab_epoch, tz=self.es_env.tzinfo)
+        fab_dt = datetime.datetime.fromtimestamp(fab_epoch, tz=self.des_env.tzinfo)
 
         start_event = [{"type": "time", "start_time": fab_dt}]
 
@@ -2161,8 +2161,8 @@ class SimpleMonopileTransportSim:
         # Register the name → short ID mapping on the builder
         self._activity_builder.register_name(activity_name, short_id)
 
-        return es_model.ShiftAmountActivity(
-            env=self.es_env,
+        return des_model.ShiftAmountActivity(
+            env=self.des_env,
             name=activity_name,
             registry=self.registry,
             processor=phantom_vessel,

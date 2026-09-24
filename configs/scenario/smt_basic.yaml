@@ -1,6 +1,6 @@
 # @package _global_
 #
-# SMT Basic — single inventory, single goal, fixed Bokalift at IS
+# SMT Basic — single inventory, single goal, fixed installation_vessel at IS
 #
 defaults:
     - override /env: smt

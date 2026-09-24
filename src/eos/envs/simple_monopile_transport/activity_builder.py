@@ -1,4 +1,4 @@
-"""Activity builder for creating EventSymphony activities from action specifications.
+"""Activity builder for creating DES activities from action specifications.
 
 This module provides a centralized builder class for constructing activities,
 making it easy to configure and customize activity properties like durations,
@@ -22,8 +22,8 @@ from dataclasses import dataclass
 # TYPE_CHECKING avoids circular imports (ReservationSystem imports ActionSpec)
 from typing import TYPE_CHECKING, Any, Dict, List, Tuple
 
-import boka_eventsymphony.core as es_core
-import boka_eventsymphony.model as es_model
+import des_package.core as des_core
+import des_package.model as des_model
 import numpy as np
 from loguru import logger
 
@@ -82,15 +82,15 @@ class SequentialActionSpec:
 
 
 class ActivityBuilder:
-    """Builder for creating EventSymphony activities from action specifications.
+    """Builder for creating DES activities from action specifications.
 
     This class centralizes activity creation logic and provides easy customization
     of activity properties like durations, amounts, and other parameters.
 
     Parameters
     ----------
-    env : es_core.Environment
-        The EventSymphony environment.
+    env : des_core.Environment
+        The DES environment.
     registry : dict
         The simulation registry containing all objects.
     config : ActivityConfig, optional
@@ -105,7 +105,7 @@ class ActivityBuilder:
         installation activities may **not** begin.  When an installation
         unload is built while the current time falls inside one of these
         windows, a ``{"type": "time", "start_time": <epoch>}`` start
-        event is injected so that EventSymphony delays the activity until
+        event is injected so that DES delays the activity until
         the window closes.  Adjacent / overlapping windows are merged
         automatically.
 
@@ -117,7 +117,7 @@ class ActivityBuilder:
 
     def __init__(
         self,
-        env: es_core.Environment,
+        env: des_core.Environment,
         registry: dict[str, Any],
         config: ActivityConfig | None = None,
         activity_tracker: ActivityTracker | None = None,
@@ -157,7 +157,7 @@ class ActivityBuilder:
         # prefix via :meth:`next_fabrication_id` instead.
         self._global_activity_counter: int = 0
 
-        # Mapping from full ES activity name → short ID (e.g. "A3").
+        # Mapping from full DES activity name → short ID (e.g. "A3").
         # Populated by :meth:`_next_activity_id` and
         # :meth:`next_fabrication_id` so that downstream consumers
         # (Phase 1 dependency display) can resolve names to short IDs.
@@ -175,7 +175,7 @@ class ActivityBuilder:
         # The final start_event list produced by the most recent
         # _build_*_activity call.  Set by each builder method so that
         # _build_action_spec can resolve dependency IDs without needing
-        # to read attributes back from the opaque ES activity object.
+        # to read attributes back from the opaque DES activity object.
         self._last_start_event: List[Dict[str, Any]] | None = None
 
     # ------------------------------------------------------------------
@@ -363,19 +363,19 @@ class ActivityBuilder:
         return f"F{self._fabrication_counter}"
 
     def register_name(self, activity_name: str, short_id: str) -> None:
-        """Record the mapping from a full ES activity name to its short ID.
+        """Record the mapping from a full DES activity name to its short ID.
 
         Parameters
         ----------
         activity_name : str
-            The full activity name used in EventSymphony.
+            The full activity name used in DES.
         short_id : str
             The short ID (e.g. ``"A3"`` or ``"F1"``).
         """
         self._name_to_short_id[activity_name] = short_id
 
     def get_short_id(self, activity_name: str) -> str | None:
-        """Look up the short ID for an ES activity name.
+        """Look up the short ID for an DES activity name.
 
         Returns ``None`` when the name is unknown.
         """
@@ -405,7 +405,7 @@ class ActivityBuilder:
         Parameters
         ----------
         start_event : list or None
-            The final start_event list as passed to EventSymphony.
+            The final start_event list as passed to DES.
 
         Returns
         -------
@@ -456,7 +456,7 @@ class ActivityBuilder:
 
             {"type": "activity", "name": "<activity-name>", "state": "done"}
 
-        EventSymphony will keep the new activity PENDING until **all**
+        DES will keep the new activity PENDING until **all**
         listed predecessor activities reach the ``done`` state.
 
         Parameters
@@ -478,7 +478,7 @@ class ActivityBuilder:
         conditions: List[Dict[str, Any]] = []
 
         unfinished_states = frozenset(
-            {es_core.CurrentActivityState.PENDING, es_core.CurrentActivityState.ACTIVE}
+            {des_core.CurrentActivityState.PENDING, des_core.CurrentActivityState.ACTIVE}
         )
 
         for name in participant_names:
@@ -496,7 +496,7 @@ class ActivityBuilder:
                 for act in self._activity_tracker.get_activities_for_site(name):
                     # For sites, we only depend on resource-altering activities (Load/Unload).
                     # We do NOT want to block on vessels simply moving to the site.
-                    if isinstance(act.activity, es_model.MoveActivity):
+                    if isinstance(act.activity, des_model.MoveActivity):
                         continue
                     activity_states.append(act)
 
@@ -574,7 +574,7 @@ class ActivityBuilder:
     def build(
         self,
         spec: ActionSpec | SequentialActionSpec,
-    ) -> es_model.GenericActivity:
+    ) -> des_model.GenericActivity:
         """Build an activity from an action specification.
 
         Parameters
@@ -584,7 +584,7 @@ class ActivityBuilder:
 
         Returns
         -------
-        es_model.GenericActivity
+        des_model.GenericActivity
             The constructed activity ready to be registered.
 
         Raises
@@ -611,7 +611,7 @@ class ActivityBuilder:
     # Internal dispatch
     # ------------------------------------------------------------------
 
-    def _build_action_spec(self, spec: ActionSpec) -> es_model.GenericActivity:
+    def _build_action_spec(self, spec: ActionSpec) -> des_model.GenericActivity:
         vessel = self._vessels_by_name[spec.vessel_name]
         short_id = self._next_activity_id()
 
@@ -629,7 +629,7 @@ class ActivityBuilder:
         self.register_name(activity.name, short_id)
 
         # Resolve dependency short IDs from the start_event captured by
-        # the builder method (avoids reading opaque ES activity attrs).
+        # the builder method (avoids reading opaque DES activity attrs).
         self._last_dep_ids = self._extract_dep_ids(self._last_start_event)
 
         return activity
@@ -641,7 +641,7 @@ class ActivityBuilder:
     def _hygienic_start_event(
         self, start_event: List[Dict[str, Any]] | None
     ) -> List[Dict[str, Any]] | None:
-        """Sanitise a ``start_event`` list before handing it to EventSymphony.
+        """Sanitise a ``start_event`` list before handing it to DES.
 
         * Conditions with a ``"concept"`` key have their string values
           resolved to the corresponding vessel / site objects.
@@ -696,7 +696,7 @@ class ActivityBuilder:
         Returns
         -------
         list or None
-            Ready-to-use ``start_event`` for an EventSymphony activity
+            Ready-to-use ``start_event`` for a DES activity
             constructor, or ``None`` when no conditions apply.
         """
         dependency_events = self._collect_dependency_events(*participant_names)
@@ -709,10 +709,10 @@ class ActivityBuilder:
 
     def _build_sequential_activity(
         self,
-        activities: List[es_model.GenericActivity],
+        activities: List[des_model.GenericActivity],
         name: str | None = None,
         start_event: List[Dict[str, Any]] | None = None,
-    ) -> es_model.SequentialActivity:
+    ) -> des_model.SequentialActivity:
         if name is None:
             # Build a descriptive, compact name from sub-activity names
             sub_names = [a.name for a in activities]
@@ -721,7 +721,7 @@ class ActivityBuilder:
 
         start_event = self._hygienic_start_event(start_event)
 
-        return es_model.SequentialActivity(
+        return des_model.SequentialActivity(
             env=self.env,
             name=name,
             registry=self.registry,
@@ -816,7 +816,7 @@ class ActivityBuilder:
         vessel: Vessel,
         spec: ActionSpec,
         short_id: str,
-    ) -> es_model.MoveActivity:
+    ) -> des_model.MoveActivity:
         """Build a move activity.
 
         Participants: the vessel only.  Arriving at a destination site does
@@ -863,7 +863,7 @@ class ActivityBuilder:
         start_event = self._resolve_start_event(spec, spec.vessel_name)
         self._last_start_event = start_event
 
-        return es_model.MoveActivity(
+        return des_model.MoveActivity(
             env=self.env,
             name=f"{short_id}: {vessel.name} → {destination.name}",
             registry=self.registry,
@@ -879,7 +879,7 @@ class ActivityBuilder:
         vessel: Vessel,
         spec: ActionSpec,
         short_id: str,
-    ) -> es_model.ShiftAmountActivity:
+    ) -> des_model.ShiftAmountActivity:
         """Build a load activity.
 
         When a :class:`ReservationSystem` is attached, fine-grained
@@ -959,7 +959,7 @@ class ActivityBuilder:
 
         self._last_start_event = start_event
 
-        return es_model.ShiftAmountActivity(
+        return des_model.ShiftAmountActivity(
             env=self.env,
             name=f"{short_id}: Load {vessel.name} ↔ {origin.name} ({resource_name})",
             registry=self.registry,
@@ -978,7 +978,7 @@ class ActivityBuilder:
         vessel: Vessel,
         spec: ActionSpec,
         short_id: str,
-    ) -> es_model.ShiftAmountActivity:
+    ) -> des_model.ShiftAmountActivity:
         """Build an unload activity.
 
         When a :class:`ReservationSystem` is attached, fine-grained
@@ -997,7 +997,7 @@ class ActivityBuilder:
         If the unload is an installation (as defined by
         ``config.installations``) and the current time is inside a
         no-install window, a time-based ``start_event`` is injected so
-        that EventSymphony delays the activity until the window closes.
+        that DES delays the activity until the window closes.
         """
         if not spec.partner_name:
             raise ValueError("Unload action requires partner_name")
@@ -1071,7 +1071,7 @@ class ActivityBuilder:
             )
 
         # If this is an installation and we are inside a no-install window,
-        # inject a time-gate so EventSymphony delays until the window closes.
+        # inject a time-gate so DES delays until the window closes.
         if self._is_installation_unload(vessel.name, destination.name):
             window_event = self._build_no_install_window_start_event()
             if window_event is not None:
@@ -1082,7 +1082,7 @@ class ActivityBuilder:
 
         self._last_start_event = start_event
 
-        return es_model.ShiftAmountActivity(
+        return des_model.ShiftAmountActivity(
             env=self.env,
             name=f"{short_id}: Unload {vessel.name} ↔ {destination.name} ({resource_name})",
             registry=self.registry,
@@ -1101,7 +1101,7 @@ class ActivityBuilder:
         vessel: Vessel,
         spec: ActionSpec,
         short_id: str,
-    ) -> es_model.BasicActivity:
+    ) -> des_model.BasicActivity:
         """Build an idle/wait activity.
 
         Supports two modes:
@@ -1136,7 +1136,7 @@ class ActivityBuilder:
             start_event = self._resolve_start_event(spec, spec.vessel_name)
             self._last_start_event = start_event
 
-            return es_model.BasicActivity(
+            return des_model.BasicActivity(
                 env=self.env,
                 name=f"{short_id}: Idle {vessel.name} ⏸ {duration:.0f}s",
                 registry=self.registry,
@@ -1161,7 +1161,7 @@ class ActivityBuilder:
             )
             start_event = self._resolve_start_event(spec, spec.vessel_name)
             self._last_start_event = start_event
-            return es_model.BasicActivity(
+            return des_model.BasicActivity(
                 env=self.env,
                 name=f"{short_id}: Idle {vessel.name} ⏸ 1s (fallback)",
                 registry=self.registry,
@@ -1190,7 +1190,7 @@ class ActivityBuilder:
         vessel_deps = self._collect_dependency_events(spec.vessel_name)
 
         # Merge: [vessel_deps..., or_condition] — all conditions are AND'd
-        # by EventSymphony when provided as a list.
+        # by DES when provided as a list.
         all_conditions = list(vessel_deps) + [or_condition]
 
         # Merge with any user-provided start_event on the spec
@@ -1198,7 +1198,7 @@ class ActivityBuilder:
         start_event = self._hygienic_start_event(start_event)
         self._last_start_event = start_event
 
-        return es_model.BasicActivity(
+        return des_model.BasicActivity(
             env=self.env,
             name=f"{short_id}: Idle {vessel.name} ⏸ await-event",
             registry=self.registry,

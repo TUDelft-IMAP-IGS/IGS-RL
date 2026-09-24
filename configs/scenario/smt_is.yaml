@@ -1,6 +1,6 @@
 # @package _global_
 #
-# SMT Installation Site — unique inventory, unique goals, Bokalift fixed at IS
+# SMT Installation Site — unique inventory, unique goals, installation_vessel fixed at IS
 #
 defaults:
     - override /env: smt

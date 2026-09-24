@@ -15,5 +15,5 @@ activities:
             fabrication_yard: 6.0
             marshalling_yard: 5.0
     installations:
-        Bokalift: # Bokalift installs to installation site and it takes n hours
+        installation_vessel: # installation_vessel installs to installation site and it takes n hours
             installation_site: 14.0

@@ -1,11 +1,11 @@
 """Simple Monopile Transport Simulation Environment.
 
 This module provides a discrete-event simulation environment for offshore wind
-monopile transport operations using the boka-eventsymphony library.
+monopile transport operations using the des_package library.
 
 The environment models the transport workflow between fabrication yards,
 marshalling yards, and installation sites, with transport vessels (HTV) and
-installation assets (Bokalift).
+installation assets (installation_vessel).
 """
 
 from .activity_builder import ActionSpec, ActivityBuilder, ActivityConfig

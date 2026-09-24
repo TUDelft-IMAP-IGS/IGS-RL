@@ -41,7 +41,7 @@ vessels:
                 capacity: 1
         total_capacity: 2
 
-    Bokalift:
+    installation_vessel:
         resource_types:
             foundation:
                 capacity: 1

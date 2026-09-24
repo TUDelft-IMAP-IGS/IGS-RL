@@ -5,8 +5,8 @@ description = "Reinforcement Learning framework for Discrete-Event Simulation lo
 readme = "README.md"
 requires-python = ">=3.12, <3.13"
 dependencies = [
-    "boka-eventsymphony>=1.5.1",
-    "boka-mde-tools>=0.3.1",
+    "des_package>=1.5.1",
+    "helper_tools>=0.3.1",
     "gymnasium[classic-control]>=1.2.2",
     "hydra-core>=1.3.2",
     "hydra-joblib-launcher>=1.2.0",
@@ -42,8 +42,8 @@ url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
 [[tool.uv.index]]
-name = "boka"
-url = "https://pkgs.dev.azure.com/boskaliscode/bokalytics/_packaging/community-feed/pypi/simple/"
+name = "internal"
+url = "https://pkgs.internal.example.com/org/simulation/_packaging/internal-feed/pypi/simple/"
 explicit = true
 
 [tool.uv.workspace]
@@ -54,8 +54,8 @@ members = [
 [tool.uv.sources]
 eos = { workspace = true, editable = true }
 torch = { index = "pytorch-cu130" }
-boka-eventsymphony = { index = "boka" }
-boka-mde-tools = { index = "boka" }
+des_package = { index = "internal" }
+helper_tools = { index = "internal" }
 
 [tool.mypy]
 python_version = "3.12"
@@ -69,13 +69,13 @@ strict = true
 # Less strict
 warn_return_any = false
 
-# Allow mixins from eventsymphony
+# Allow mixins from DES package
 disallow_subclassing_any = false
 
 # Per-module options for third-party libraries without stubs
 [[tool.mypy.overrides]]
 module = [
-    "boka_eventsymphony.*",
+    "des_package.*",
     "shapely.*",
     "torch.*",
     "tyro.*",

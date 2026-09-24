@@ -34,7 +34,7 @@ vessels:
         loading_rate: 1
         unloading_rate: 1
 
-    Bokalift:
+    installation_vessel:
         type: TransportProcessingResource
         start_location: installation_site
         role: installer

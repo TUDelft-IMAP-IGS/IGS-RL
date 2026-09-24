@@ -1,3 +1,3 @@
 # No install window - baseline configuration
-# The bokalift can install at any time
+# The installation_vessel can install at any time
 no_install_windows: []

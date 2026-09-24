@@ -28,6 +28,6 @@ env:
                 weight: 1.0
                 rates:
                     HTV: 0.01
-                    Bokalift: 0.025
+                    installation_vessel: 0.025
             storage:
                 enabled: false

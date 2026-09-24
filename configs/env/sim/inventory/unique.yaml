@@ -151,7 +151,7 @@ vessels:
                 <<: *slot1
         total_capacity: 2
 
-    Bokalift:
+    installation_vessel:
         resource_types:
             mp_1:
                 <<: *slot1

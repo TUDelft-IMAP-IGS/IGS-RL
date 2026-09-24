@@ -14,5 +14,5 @@ env:
     sim:
         activities:
             installations:
-                Bokalift:
+                installation_vessel:
                     installation_site: 40.0

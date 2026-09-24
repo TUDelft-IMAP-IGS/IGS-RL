@@ -33,7 +33,7 @@ if "-m" in sys.argv or "--multirun" in sys.argv:
     signal.signal(signal.SIGINT, signal.SIG_IGN)
 # =========================================================================
 
-logging.getLogger("boka_eventsymphony").setLevel(logging.WARNING)
+logging.getLogger("des_package").setLevel(logging.WARNING)
 
 
 def run_experiment(cfg: EOSConfig, run_name: str, trial=None) -> dict:

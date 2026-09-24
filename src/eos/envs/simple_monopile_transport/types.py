@@ -1,7 +1,7 @@
 from enum import Enum, IntEnum
 from typing import Union
 
-import boka_eventsymphony.core as es_core
+import des_package.core as des_core
 
 # ---------------------------------------------------------------------------
 # Entity role enums – used in configs and simulator rule logic
@@ -68,40 +68,40 @@ class VesselRole(str, Enum):
 
 
 # ---------------------------------------------------------------------------
-# Simulation object types (EventSymphony mixins)
+# Simulation object types (DES mixins)
 # ---------------------------------------------------------------------------
 
 
 class Site(
-    es_core.Identifiable,
-    es_core.Log,
-    es_core.Processor,
-    es_core.Locatable,
-    es_core.HasMultiContainer,
-    es_core.HasResource,
+    des_core.Identifiable,
+    des_core.Log,
+    des_core.Processor,
+    des_core.Locatable,
+    des_core.HasMultiContainer,
+    des_core.HasResource,
 ):
     pass
 
 
 class TransportProcessingResource(
-    es_core.MultiContainerDependentMovable,
-    es_core.HasResource,
-    es_core.Processor,
-    es_core.Identifiable,
-    es_core.Log,
-    es_core.LoadingFunction,
-    es_core.UnloadingFunction,
+    des_core.MultiContainerDependentMovable,
+    des_core.HasResource,
+    des_core.Processor,
+    des_core.Identifiable,
+    des_core.Log,
+    des_core.LoadingFunction,
+    des_core.UnloadingFunction,
 ):
     pass
 
 
 class InstallationAsset(
-    es_core.Identifiable,
-    es_core.Log,
-    es_core.Locatable,
-    es_core.HasMultiContainer,
-    es_core.HasResource,
-    es_core.Processor,
+    des_core.Identifiable,
+    des_core.Log,
+    des_core.Locatable,
+    des_core.HasMultiContainer,
+    des_core.HasResource,
+    des_core.Processor,
 ):
     pass
 

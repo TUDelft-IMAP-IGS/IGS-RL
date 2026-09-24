@@ -30,7 +30,7 @@ def capture_inventory_snapshot(sim, history: list[dict]) -> None:
 
 
 def create_custom_gantt_chart(df: pd.DataFrame, simulation_start=None):
-    """Builds a custom Plotly Gantt chart from an EventSymphony overview dataframe.
+    """Builds a custom Plotly Gantt chart from a DES overview dataframe.
 
     Parameters
     ----------
@@ -601,16 +601,16 @@ def log_eval_to_wandb(
 
         # 2. Gantt Chart & State
         try:
-            from boka_eventsymphony.plot import get_overview_dataframe
+            from des_package.plot import get_overview_dataframe
 
             from eos.utils.visualization import get_state_overview
 
             sim = unwrapped_env._sim
-            state_overview = get_state_overview(sim.es_env)
+            state_overview = get_state_overview(sim.des_env)
             wandb_payload["eval/simulation_state"] = wandb.Html(state_overview)
 
             df = get_overview_dataframe(
-                sim._get_all_vessels(), sim.es_env.registry.get("activities", [])
+                sim._get_all_vessels(), sim.des_env.registry.get("activities", [])
             )
 
             gantt_plot = create_custom_gantt_chart(

@@ -9,7 +9,7 @@ from gymnasium import spaces
 
 # TODO: Consider how to handle IDS of entities
 #  - Resources should have something like IDs in the unique case
-#  - Vessels should perhaps have something like a type which distingushed between HTVs, bokalifts etc.
+#  - Vessels should perhaps have something like a type which distingushed between HTVs, installation_vessels etc.
 #  - For now we use ID but to make the architecture size agnostic and do something like curriculum learning use type as embedding
 
 

@@ -1,14 +1,14 @@
-import boka_eventsymphony.core as es_core
+import des_package.core as des_core
 
 Site = type(
     "Site",
     (
-        es_core.Identifiable,
-        es_core.Log,
-        es_core.Processor,
-        es_core.Locatable,
-        es_core.HasMultiContainer,
-        es_core.HasResource,
+        des_core.Identifiable,
+        des_core.Log,
+        des_core.Processor,
+        des_core.Locatable,
+        des_core.HasMultiContainer,
+        des_core.HasResource,
     ),
     {},
 )
@@ -16,11 +16,11 @@ Site = type(
 TransportVessel = type(
     "TransportVessel",
     (
-        es_core.MultiContainerDependentMovable,
-        es_core.HasResource,
-        es_core.Processor,
-        es_core.Identifiable,
-        es_core.Log,
+        des_core.MultiContainerDependentMovable,
+        des_core.HasResource,
+        des_core.Processor,
+        des_core.Identifiable,
+        des_core.Log,
     ),
     {},
 )
@@ -28,12 +28,12 @@ TransportVessel = type(
 InstallationAsset = type(
     "InstallationAsset",
     (
-        es_core.Identifiable,
-        es_core.Log,
-        es_core.Locatable,
-        es_core.HasContainer,
-        es_core.HasResource,
-        es_core.Processor,
+        des_core.Identifiable,
+        des_core.Log,
+        des_core.Locatable,
+        des_core.HasContainer,
+        des_core.HasResource,
+        des_core.Processor,
     ),
     {},
 )

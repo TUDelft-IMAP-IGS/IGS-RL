@@ -39,7 +39,7 @@ vessels:
                 capacity: 1
         total_capacity: 1
 
-    Bokalift:
+    installation_vessel:
         resource_types:
             monopile:
                 capacity: 1

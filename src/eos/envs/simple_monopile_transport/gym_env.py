@@ -1091,7 +1091,7 @@ class SimpleMonopileTransportEnv(gym.Env):
         self._resource_names_to_id = self._sim_object_names_to_id(self._resource_names)
 
         self._time_budget_hours = cfg.time_budget
-        self._episode_start_time_unix = self._sim.es_env.now
+        self._episode_start_time_unix = self._sim.des_env.now
 
         self._renderer = None
         self._last_obs_structured: Observation | None = None
@@ -1388,7 +1388,7 @@ class SimpleMonopileTransportEnv(gym.Env):
         acc_costs = self._rewarder.accumulated_costs  # Dict[str, float]
 
         global_obs = GlobalObs(
-            current_time=self._sim.es_env.now,
+            current_time=self._sim.des_env.now,
             # Invariant: each busy vessel has at most one active task at any moment
             num_pending_tasks=len(self._sim.busy_vessels),
             step=self._sim.sim_step,
@@ -1581,7 +1581,7 @@ class SimpleMonopileTransportEnv(gym.Env):
         # that any stochastic activity durations (when enabled in
         # cfg.sim.activities.stochasticity) are reproducible/replayable.
         self._sim = SimpleMonopileTransportSim(self.cfg.sim, rng=self.np_random)
-        self._episode_start_time_unix = self._sim.es_env.now
+        self._episode_start_time_unix = self._sim.des_env.now
         self._step = 0
         self._micro_step = 0
         self.gamma_t = 1
@@ -1713,14 +1713,14 @@ class SimpleMonopileTransportEnv(gym.Env):
             self.micro_step(action)
 
         prev_structured = self._last_obs_structured or self._build_observation()
-        prev_time = float(self._sim.es_env.now)
+        prev_time = float(self._sim.des_env.now)
 
         # Advance simulation one internal event
         sim_term = self._sim.step()
         self._step += 1
 
         # Compute physical time passed (convert to hours at boundary)
-        curr_time = float(self._sim.es_env.now)
+        curr_time = float(self._sim.des_env.now)
         delta_time_hours = (curr_time - prev_time) / 3600.0
 
         self.gamma_t = np.exp(-self.cfg.beta * delta_time_hours)

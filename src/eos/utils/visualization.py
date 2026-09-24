@@ -21,7 +21,7 @@ def get_state_overview(env):
     Parameters
     ----------
     env :
-        The EventSymphony simulation environment whose registry will be
+        The DES simulation environment whose registry will be
         inspected.  Must expose ``check_registry_in_env()``,
         ``activity_states()``, and a ``registry`` dict.
 

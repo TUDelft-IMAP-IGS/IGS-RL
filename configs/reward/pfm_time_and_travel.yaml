@@ -45,6 +45,6 @@ env:
                 rates:
                     HTV: 0.01
                     Barge: 0.1
-                    Bokalift: 1.0
+                    installation_vessel: 1.0
             storage:
                 enabled: false

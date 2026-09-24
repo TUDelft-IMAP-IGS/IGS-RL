@@ -8,5 +8,5 @@ defaults:
 use_business_rules: true
 
 vessels:
-    Bokalift:
+    installation_vessel:
         movable: true
